@@ -9,11 +9,12 @@ public class EmployeeEntity {
     private String username;
     private String password;
     private String confirmPassword;
+    private String manager;
 
     public EmployeeEntity(){}
 
     @Basic
-    @Column(name = "Name")
+    @Column(name = "name")
     public String getName() {
         return name;
     }
@@ -23,7 +24,7 @@ public class EmployeeEntity {
     }
 
     @Id
-    @Column(name = "Username")
+    @Column(name = "username")
     public String getUsername() {
         return username;
     }
@@ -33,7 +34,7 @@ public class EmployeeEntity {
     }
 
     @Basic
-    @Column(name = "Password")
+    @Column(name = "password")
     public String getPassword() {
         return password;
     }
@@ -43,13 +44,23 @@ public class EmployeeEntity {
     }
 
     @Basic
-    @Column(name = "Confirm_Password")
+    @Column(name = "confirm_password")
     public String getConfirmPassword() {
         return confirmPassword;
     }
 
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
+    }
+
+    @Basic
+    @Column(name = "manager")
+    public String getManager() {
+        return manager;
+    }
+
+    public void setManager(String manager) {
+        this.manager = manager;
     }
 
     @Override

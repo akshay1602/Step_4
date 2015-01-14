@@ -27,5 +27,15 @@
         <input type="submit" value = "Create">
     </form>
 
+    <form method="post" action="editManager.html">
+        <input type="hidden" name="username" value="${message}">
+        <input type="submit" value = "Edit_Manager">
+    </form>
+
+    <form method="post" action="subordinate.html">
+        <input type="hidden" name="username" value="${message}">
+        <input type="submit" value = "subordinates">
+    </form>
+
 </body>
 </html>

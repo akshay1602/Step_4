@@ -11,6 +11,7 @@ import org.hibernate.criterion.Criterion;
 import org.hibernate.criterion.Restrictions;
 
 import java.util.List;
+import java.util.Stack;
 
 public class Authenticate {
 
@@ -140,7 +141,18 @@ public class Authenticate {
         return cr.list();
     }
 
-    public void addRole(Role r){
+    public List editManager(){
+
+        Configuration cfg = new Configuration();
+        cfg.configure("hibernate.cfg.xml");
+        SessionFactory factory = cfg.buildSessionFactory();
+        Session session = factory.openSession();
+        Criteria cr = session.createCriteria(EmployeeEntity.class);
+        //cr.add(Restrictions.ne("role","admin"));
+        return cr.list();
+    }
+
+     public void addRole(Role r){
         Configuration cfg = new Configuration();
         cfg.configure("hibernate.cfg.xml");
         SessionFactory factory = cfg.buildSessionFactory();
@@ -149,6 +161,22 @@ public class Authenticate {
 
         Transaction t = session.beginTransaction();
         session.persist(r);
+        t.commit();
+        session.close();
+
+    }
+
+    public void addManager(EmployeeEntity r){
+        Configuration cfg = new Configuration();
+        cfg.configure("hibernate.cfg.xml");
+        SessionFactory factory = cfg.buildSessionFactory();
+        Session session = factory.openSession();
+        Criteria cr = session.createCriteria(EmployeeEntity.class);
+
+        Transaction t = session.beginTransaction();
+        String hql = "Update EmployeeEntity set manager = '"+r.getManager() + "' where username = '" + r.getUsername()+ "'";
+        Query q = session.createQuery(hql);
+        q.executeUpdate();
         t.commit();
         session.close();
 
@@ -172,6 +200,61 @@ public class Authenticate {
         session.close();
 
     }
+
+    public void delManager(EmployeeEntity e){
+
+        Configuration cfg = new Configuration();
+        cfg.configure("hibernate.cfg.xml");
+        SessionFactory factory = cfg.buildSessionFactory();
+        Session session = factory.openSession();
+        Criteria cr = session.createCriteria(EmployeeEntity.class);
+
+        Transaction t = session.beginTransaction();
+
+        String hql = "Update EmployeeEntity set manager = " + null +" where username = '" + e.getUsername()+ "'";
+        Query q = session.createQuery(hql);
+        q.executeUpdate();
+
+        t.commit();
+        session.close();
+
+
+    }
+
+     public Stack<String> getsubordinates(EmployeeEntity e, List l){
+
+         Stack<String> s = new Stack<String>();
+         if(e.getManager() != null) s.push(e.getManager());
+
+         Stack<String> ans = new Stack<String>();
+
+         while(!s.isEmpty()){
+
+             String s1 = s.pop();
+             //System.out.println(s1);
+             //System.out.println(l.size());
+
+             for(int i=0; i < l.size();i++){
+
+                 EmployeeEntity e1 = new EmployeeEntity();
+                 e1 =(EmployeeEntity) l.get(i);
+                // System.out.println( i + e1.getManager());
+                 //System.out.println(e.getManager());
+                 if(e1.getManager() != null) {
+                     if (s1.matches(e1.getManager())) {
+                         ans.push(e1.getUsername());
+                         s.push(e1.getUsername());
+                         //System.out.println(e1.getUsername());
+                        // ans.add(e1.getUsername());
+                     }
+                 }
+
+             }
+
+         }
+
+        return  ans;
+     }
 
 
 

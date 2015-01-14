@@ -3,6 +3,7 @@ package Controllers;
 import Model.*;
 
 import java.util.List;
+import java.util.Stack;
 
 public class Service {
 
@@ -70,6 +71,11 @@ public class Service {
 
         }
 
+        public List editmanager(){
+
+            Authenticate a = new Authenticate();
+            return a.editManager();
+        }
         public void addrole(String username,String role){
 
             Role r = new Role();
@@ -80,6 +86,15 @@ public class Service {
             a.addRole(r);
         }
 
+        public void addmanager(String username, String manager){
+            EmployeeEntity e = new EmployeeEntity();
+            e.setUsername(username);
+            e.setManager(manager);
+
+            Authenticate a = new Authenticate();
+            a.addManager(e);
+        }
+
         public void delrole(String username, String role){
 
             Role r = new Role();
@@ -88,6 +103,23 @@ public class Service {
 
             Authenticate a = new Authenticate();
             a.delRole(r);
+        }
+
+        public void delmanager(String username, String manager){
+            EmployeeEntity e = new EmployeeEntity();
+            e.setUsername(username);
+            e.setManager(manager);
+
+            Authenticate a = new Authenticate();
+            a.delManager(e);
+        }
+
+        public Stack<String> subordinates(List l , String manager){
+            EmployeeEntity e = new EmployeeEntity();
+            e.setManager(manager);
+
+            Authenticate a = new Authenticate();
+            return a.getsubordinates(e,l);
         }
 
 

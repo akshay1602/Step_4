@@ -1,6 +1,6 @@
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.Iterator" %>
-
+<%@ page import="Model.Role" %>
 <%@ page import="Model.EmployeeEntity" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <html>
@@ -15,7 +15,6 @@
            EmployeeEntity e = (EmployeeEntity) it.next();
             out.println(e.getName());
             out.println(e.getUsername());
-            //out.println(e.getPassword());
             out.print("<br>");
         }
     %>
